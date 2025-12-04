@@ -1,6 +1,7 @@
 # Project notes
 ## EDA
 ### Notes for EDA
+#### from overview
 * no duplicates
 * no missing values
 * *Attrition* **(TARGET)**: binary -> [0, 1]
@@ -8,6 +9,15 @@
 * ordinal ints: *Education, EnvironmentSatisfaction, JonInvolvement, JobLevel, JobSatisfaction, NumCompaniesWorked, PerformanceRating, RelationshipSatisfaction, StockOptionLevel, TrainingTimesLastYear, WorkLifeBalance*
 * **ignore** (no variance): *EmployeeCount, Over18, StandardHours*
 * **ignore** (ID): *EmployeeNumber*
+### Insights
+#### Correlations
+* no strong immediate correlations ~ *Attrition*
+* multicolinearities: 
+    * *JobLevel ~ MonthlyIncome*
+    * *PerformanceRating ~ PercentSalaryHike*
+* Correlation group: *"Years" ~ JobLevel ~ MonthlyIncome*
+#### artificial features to inspect
+* sum(*"ordinals"*)
 
 ## Baseline model
 * target is unbalanced (84:16 = ~5:1)
@@ -15,5 +25,6 @@
 ### Data CLeaning
 * *Attrition, OverTime*: -> [0, 1]
 
-## Model Optimization
+## Model Optimization: Try these steps
+* JobLevel vs. MontthlyIncome: [both/either]
 #### Try columns
