@@ -65,15 +65,16 @@ def direct_correlations(df, column, sort=True):
     Args:
         df (DataFrame): The dataframe that is to inspect
         key (column name): name of the reference column
-        sort (boolean, optional): If True, sort by correlation. Defaults to True.
+        sort (boolean, optional): If True, sort by absolute correlation. Defaults to True.
     Returns:
-        DataFrame showing the absolute correlation between each numeric column with the reference column
+        DataFrame showing the correlation between each numeric column and the reference column
     """
     import numpy as np
     import pandas as pd
     
     # extract main correlations
-    corrs = pd.DataFrame(df.corr(numeric_only=True)[column].abs().sort_values(ascending=False))
+    corrs = pd.DataFrame(df.corr(numeric_only=True)[column].sort_values(ascending=False,
+                                                                        key=lambda x: abs(x)))
     corrs.columns = [f"correlation with {column}"]
     
     return corrs
