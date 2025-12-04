@@ -65,9 +65,11 @@ def direct_correlations(df, column, sort=True):
     Args:
         df (DataFrame): The dataframe that is to inspect
         key (column name): name of the reference column
-        sort (boolean, optional): If True, sort by absolute correlation. Defaults to True.
+        sort (boolean, optional): If True, sort by absolute correlation. 
+            Defaults to True.
     Returns:
-        DataFrame showing the correlation between each numeric column and the reference column
+        DataFrame showing the correlation between each numeric column 
+        and the reference column
     """
     import numpy as np
     import pandas as pd
@@ -78,3 +80,56 @@ def direct_correlations(df, column, sort=True):
     corrs.columns = [f"correlation with {column}"]
     
     return corrs
+
+
+
+def frequency_distribution_plots(df, plotcol, refcol, show=None, save_as=None):
+    '''Display 'col vs. key' barplots of... 
+    ...on the left: A normalized crosstab for relative distributions.
+    ...on the right: An absolute crosstab for a sanity check.
+    Args:
+        df (DataFrame): Data
+        plotcol: Name of column for which the frequency distribution shall be plotted
+        refcol: Name of column by which to group. Must be binary with [0, 1].
+        show (refcol value, optional): If given, the left plot will only plot 
+            the given values. Defaults to None.
+        save_as (False or String): If not False, save image with given path
+    Returns: None
+    '''
+    fig, ax = plt.subplots(figsize=(16,3), ncols=2)
+    
+    # Relative distribution
+    crosstab_rel = pd.crosstab(index=df[plotcol], columns=df[refcol], normalize='index')
+    if show:
+        key = show
+    else:
+        key = crosstab_rel.columns
+    crosstab_rel[key].plot(kind='bar', ax=ax[0], color=['orange'])
+    ax[0].set_title(f'Relative frequencies of {refcol} in {plotcol}')
+    ax[0].axhline(df[refcol].mean(), color="darkred", linestyle='--')
+    
+    # Absolute distribution
+    crosstab_abs = pd.crosstab(index=df[plotcol], columns="count")
+    crosstab_abs.plot(kind='bar', ax=ax[1])
+    ax[1].set_title(f'Absolute frequencies of {plotcol}')
+    
+    if save_as: fig.savefig(save_as)
+
+
+
+def value_distribution_plots(df, plotcol, refcol, density=False):
+    '''Plot a histogram, boxplot and kernel density estimation (kde) plot, 
+        grouped by 'refcol'
+    ARGS
+        df (DataFrame): Data
+        plotcol: Name of value column
+        refcol: Name of column by which to group
+        density (boolean, optional): If True, the histogram will show 
+            density values. Defaults to False.
+    RETURN: None
+    '''
+    fig, ax = plt.subplots(ncols=3, figsize=(16,3))
+    sns.boxplot(data=df, y=plotcol, x=refcol, ax=ax[0])
+    data.groupby(refcol)[plotcol].plot(kind='hist', bins=20, ax=ax[1], 
+                                       alpha=0.5, density=density)
+    data.groupby(refcol)[plotcol].plot(kind='kde', ax=ax[2])
