@@ -22,3 +22,39 @@ def cat_pie(df, col, title=None, save_as=None):
     ax.set_title(title)
     
     if save_as: fig.savefig(save_as)
+
+
+
+def main_correlations(df, threshold=0.2, sort=False):
+    """Display a table of numeric column pairs with an 
+    absolute linear correlation (after Pearson) >= a givem threshold
+    Args:
+        df (DataFrame): The dataframe that is to inspect
+        threshold (float, optional): The correlation threshold. Defaults to 0.2.
+        sort (True or False, optional): If True, sort by correlation index (descending). Defaults to False.
+    Returns:
+        DataFrame showing the absolute main correlations in df's numeric columns
+    """
+    import numpy as np
+    import pandas as pd
+    from IPython.display import Markdown
+    
+    # extract main correlations
+    corrs = df.corr(numeric_only=True).abs()
+    corrs_upper = pd.DataFrame(np.triu(corrs, k=0), index=corrs.index, columns = corrs.columns)
+    main_corrs_tuples = [(x, y, corrs_upper.loc[x, y]) 
+                     for x in corrs_upper.columns 
+                     for y in corrs_upper.columns 
+                     if (not x == y) and corrs_upper.loc[x, y] >= threshold]
+    if sort == True:
+        main_corrs_tuples = sorted(main_corrs_tuples, key=lambda corr: corr[2], reverse=True)
+    
+    main_corrs = pd.DataFrame({
+        "column_1": [corr[0] for corr in main_corrs_tuples],
+        "column_2": [corr[1] for corr in main_corrs_tuples],
+        "abs_correlation": [corr[2] for corr in main_corrs_tuples]
+    })
+    
+    if sort: main_corrs = main_corrs.sort_values("abs_correlation", ascending=False)
+    
+    return main_corrs
