@@ -25,6 +25,10 @@
 ### Data CLeaning
 * *Attrition, OverTime*: -> [0, 1]
 
-## Model Optimization: Try these steps
-* JobLevel vs. MontthlyIncome: [both/either]
-#### Try columns
+## Model Optimization
+### Feature Engineering
+* *MonthlyIncome* vs. "expectedIncome" (linReg *MobthlyIncome ~ TotalWorkingYears*)
+### Feature Selection
+* *JobLevel* vs. *MontthlyIncome*: [both, either, PCA]
+* *PercentSalaryHike* vs. *PerformanceRating*: [both, either, PCA]
+* *"Years"*: PCA
