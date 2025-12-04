@@ -37,7 +37,6 @@ def main_correlations(df, threshold=0.2, sort=False):
     """
     import numpy as np
     import pandas as pd
-    from IPython.display import Markdown
     
     # extract main correlations
     corrs = df.corr(numeric_only=True).abs()
@@ -58,3 +57,23 @@ def main_correlations(df, threshold=0.2, sort=False):
     if sort: main_corrs = main_corrs.sort_values("abs_correlation", ascending=False)
     
     return main_corrs
+
+
+
+def direct_correlations(df, column, sort=True):
+    """Display a table all correlation scores (Pearson) with a reference column
+    Args:
+        df (DataFrame): The dataframe that is to inspect
+        key (column name): name of the reference column
+        sort (boolean, optional): If True, sort by correlation. Defaults to True.
+    Returns:
+        DataFrame showing the absolute correlation between each numeric column with the reference column
+    """
+    import numpy as np
+    import pandas as pd
+    
+    # extract main correlations
+    corrs = pd.DataFrame(df.corr(numeric_only=True)[column].abs().sort_values(ascending=False))
+    corrs.columns = [f"correlation with {column}"]
+    
+    return corrs
