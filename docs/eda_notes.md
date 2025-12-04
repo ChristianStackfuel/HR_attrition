@@ -1,7 +1,5 @@
-# Project notes
-## EDA
-### Notes for EDA
-#### from overview
+# EDA notes
+## Overview inspection
 * no duplicates
 * no missing values
 * *Attrition* **(TARGET)**: binary -> [0, 1]
@@ -9,26 +7,63 @@
 * ordinal ints: *Education, EnvironmentSatisfaction, JonInvolvement, JobLevel, JobSatisfaction, NumCompaniesWorked, PerformanceRating, RelationshipSatisfaction, StockOptionLevel, TrainingTimesLastYear, WorkLifeBalance*
 * **ignore** (no variance): *EmployeeCount, Over18, StandardHours*
 * **ignore** (ID): *EmployeeNumber*
-### Insights
-#### Correlations
+
+## frequency distributions
+
+## value distributions
+#### columns for value distributions
+* *Age* (logarithmic?)
+* *BusinessTravel* (transform zu metric)
+* *JobInvolvement*
+* *JobSatisfaction*
+* *MonthlyIncome*
+* *MonthlyRate
+* *TotalWorkingYears*
+## Correlations
 * no strong immediate correlations ~ *Attrition*
 * multicolinearities: 
     * *JobLevel ~ MonthlyIncome*
     * *PerformanceRating ~ PercentSalaryHike*
 * Correlation group: *"Years" ~ JobLevel ~ MonthlyIncome*
-#### artificial features to inspect
-* sum(*"ordinals"*)
-
 ## Baseline model
 * target is unbalanced (84:16 = ~5:1)
 ### Use columns
-### Data CLeaning
+#### categorical
+* *BusinessTravel*
+* *Education*
+* *EducationField*
+* *EnvironmentSatisfaction*
+* *JobLevel*
+* *JobRole*
+* *JobSatisfaction*
+* *MaritalStatus*
+* *RelationshipSatisfaction*
+* *StockOptionLevel*
+* *TrainingTimesLastYear*
+* *WorkLifeBalance*
+#### metric
+* *Age*
+* *JobInvolvement*
+* *OverTime*
+## Data cleaning & preparation
 * *Attrition, OverTime*: -> [0, 1]
-
 ## Model Optimization
 ### Feature Engineering
+* *BusinessTravel*: Transform to metric
+* *MaritalStatus*: Transform to metric
+* *YearsAtCompany* < 5
+* *Age* < 34
+* *YearsWithCurrentManager* < 8
+* Test logarithmic rescaling of *Age*
+* "*EnvironmentSatisfaction Is 1*"
+* "*RelationshipSatisfaction Is 1*"
+* "*WorkLifeBalance Is 1*"
+* "*NumCompaniesWorked* ==1 or >=5
+* *TotalWorkingYears* but grouped
 * *MonthlyIncome* vs. "expectedIncome" (linReg *MobthlyIncome ~ TotalWorkingYears*)
+* sum("ordinals")
 ### Feature Selection
 * *JobLevel* vs. *MontthlyIncome*: [both, either, PCA]
 * *PercentSalaryHike* vs. *PerformanceRating*: [both, either, PCA]
 * *"Years"*: PCA
+* *DistanceFromHome*
