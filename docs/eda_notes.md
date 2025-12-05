@@ -9,8 +9,7 @@
 * **ignore** (ID): *EmployeeNumber*
 
 ## frequency distributions
-
-## value distributions
+* done, notes updated
 #### columns for value distributions
 * *Age* (logarithmic?)
 * *BusinessTravel* (transform zu metric)
@@ -19,6 +18,8 @@
 * *MonthlyIncome*
 * *MonthlyRate
 * *TotalWorkingYears*
+## value distributions
+* done, notes updated
 ## Correlations
 * no strong immediate correlations ~ *Attrition*
 * multicolinearities: 
@@ -45,10 +46,15 @@
 * *Age*
 * *JobInvolvement*
 * *OverTime*
+* *TotalWorkingYears*
+* *YearsInCurrentRole*
+* *MonthlyIncome
+* *YearsWithCurrentManager*
+* *YearsAtCompany*
 ## Data cleaning & preparation
 * *Attrition, OverTime*: -> [0, 1]
 ## Model Optimization
-### Feature Engineering
+### Feature Engineering & Selection
 * *BusinessTravel*: Transform to metric
 * *MaritalStatus*: Transform to metric
 * *YearsAtCompany* < 5
@@ -62,7 +68,6 @@
 * *TotalWorkingYears* but grouped
 * *MonthlyIncome* vs. "expectedIncome" (linReg *MobthlyIncome ~ TotalWorkingYears*)
 * sum("ordinals")
-### Feature Selection
 * *JobLevel* vs. *MontthlyIncome*: [both, either, PCA]
 * *PercentSalaryHike* vs. *PerformanceRating*: [both, either, PCA]
 * *"Years"*: PCA

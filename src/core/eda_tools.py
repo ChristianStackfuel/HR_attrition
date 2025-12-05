@@ -117,7 +117,7 @@ def frequency_distribution_plots(df, plotcol, refcol, show=None, save_as=None):
 
 
 
-def value_distribution_plots(df, plotcol, refcol, density=False):
+def value_distribution_plots(df, plotcol, refcol, density=False, save_as=None):
     '''Plot a histogram, boxplot and kernel density estimation (kde) plot, 
         grouped by 'refcol'
     ARGS
@@ -126,10 +126,13 @@ def value_distribution_plots(df, plotcol, refcol, density=False):
         refcol: Name of column by which to group
         density (boolean, optional): If True, the histogram will show 
             density values. Defaults to False.
+        save_as (False or String): If not False, save image with given path
     RETURN: None
     '''
     fig, ax = plt.subplots(ncols=3, figsize=(16,3))
     sns.boxplot(data=df, y=plotcol, x=refcol, ax=ax[0])
-    data.groupby(refcol)[plotcol].plot(kind='hist', bins=20, ax=ax[1], 
+    df.groupby(refcol)[plotcol].plot(kind='hist', bins=20, ax=ax[1], 
                                        alpha=0.5, density=density)
-    data.groupby(refcol)[plotcol].plot(kind='kde', ax=ax[2])
+    df.groupby(refcol)[plotcol].plot(kind='kde', ax=ax[2])
+    
+    if save_as: fig.savefig(save_as)
